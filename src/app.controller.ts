@@ -16,7 +16,6 @@ export class AppController {
   }
   @Post("/user")
   sayHelloToUser(@Query() query): string {
-    return query;
-    return this.appService.sayHelloToUser();
+    return this.appService.sayHelloToUser(query);
   }
 }

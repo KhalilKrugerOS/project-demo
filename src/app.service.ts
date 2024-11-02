@@ -8,7 +8,7 @@ export class AppService {
   getHelloFromUser(): string {
     return 'Hello User !';
   }
-  sayHelloToUser(): string {
-    return 'Hello User'
+  sayHelloToUser(query): string {
+    return 'Hello User ' + query.name
   }
 }
