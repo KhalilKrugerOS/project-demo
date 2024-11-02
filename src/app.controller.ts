@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -6,16 +6,29 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
-  @Get()
+  @Get("/")
   getHello(): string {
-    return this.appService.getHello();
+    return "hello";
   }
   @Get("/user")
   getHelloFromUser(): string {
     return this.appService.getHelloFromUser();
   }
   @Post("/user")
-  sayHelloToUser(@Query() query): string {
+  sayHelloToUser(@Query("name") query: string): string {
     return this.appService.sayHelloToUser(query);
+  }
+  @Post("/hello/:name/:id/:natio")
+  sayHello(@Param() params): string {
+    return this.appService.getHello(params);
+  }
+  @Get("/hello")
+  getHelloBody(@Body("id") body) {
+    return this.appService.getHelloBody(body);
+  }
+
+  @Get('/checkout')
+  getCheckout(@Req() req: any, @Res() res: any) {
+    return this.appService.getCheckout(req, res);
   }
 }
