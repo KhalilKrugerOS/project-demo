@@ -19,7 +19,7 @@ import { TodoModule } from './todo/todo.module';
       database: 'nest-test',
       // entities: [Payment],
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
     }),
     TodoModule,
   ],
