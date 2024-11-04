@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { BookingModule } from './booking/booking.module';
 import { PaymentModule } from './payment/payment.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CommonModule } from './common/common.module';
+import { TodoModule } from './todo/todo.module';
+
 @Module({
   imports: [
-    BookingModule,
+    CommonModule,
     PaymentModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -15,11 +17,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: 'root',
       password: '',
       database: 'nest-test',
-      entities: [],
-      synchronize: true,
+      // entities: [Payment],
+      autoLoadEntities: true,
+      synchronize: false,
     }),
+    TodoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
+  exports: []
 })
 export class AppModule { }
