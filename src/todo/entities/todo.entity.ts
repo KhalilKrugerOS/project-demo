@@ -1,8 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { StatusEnum, StatusType } from "../ENUMS/status.enums";
 import { IsNotEmpty, MaxLength, maxLength, MinLength, minLength } from "class-validator";
+import { crudEntity } from "./crudEntity.entity";
 @Entity()
-export class Todo {
+export class Todo extends crudEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -27,13 +28,12 @@ export class Todo {
     })
     description: string;
 
-    @Column({ nullable: true })
-    createdAt: Date;
 
     @Column({
         type: 'enum',
         enum: StatusEnum,
         default: StatusEnum.IN_PROGRESS
     })
+
     Status: StatusType;
 }
