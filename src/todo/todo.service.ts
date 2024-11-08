@@ -14,19 +14,37 @@ export class TodoService {
     return res;
   }
 
+  async addTodo(createTodoDto: CreateTodoDto) {
+    const res = await this.todoRepository.save(createTodoDto);
+    return res;
+  }
+
   findAll() {
     return `This action returns all todo`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todo`;
+  async findOne(id: number) {
+    const res = await this.todoRepository.findOne({ where: { id } });
+    if (res === null || res.deletedAt !== null)
+      return null;
+    return res;
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
+  async updateTodo(id: number, updateTodoDto: UpdateTodoDto) {
+    const res = await this.todoRepository.findOne({ where: { id } });
+    if (res === null || res.deletedAt !== null)
+      return null;
+    res.updatedAt = new Date();
+    return this.todoRepository.update({ id }, updateTodoDto);
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todo`;
+  async deleteTodo(id: number) {
+    const res = await this.todoRepository.findOne({ where: { id } });
+    if (res === null)
+      return null;
+    res.deletedAt = new Date();
+    res.updatedAt = null;
+    return this.todoRepository.update({ id }, { deletedAt: new Date() });
   }
 }

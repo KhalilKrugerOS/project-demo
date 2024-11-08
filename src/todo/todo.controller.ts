@@ -12,6 +12,11 @@ export class TodoController {
     return this.todoService.create(createTodoDto);
   }
 
+  @Post('/addTodo')
+  addTodo(@Body() createTodoDto: CreateTodoDto) {
+    return this.todoService.addTodo(createTodoDto);
+  }
+
   @Get()
   findAll() {
     return this.todoService.findAll();
@@ -23,12 +28,12 @@ export class TodoController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todoService.update(+id, updateTodoDto);
+  updateTodo(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
+    return this.todoService.updateTodo(+id, updateTodoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.todoService.remove(+id);
+    return this.todoService.deleteTodo(+id);
   }
 }
