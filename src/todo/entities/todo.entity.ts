@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { StatusEnum, StatusType } from "../ENUMS/status.enums";
-import { IsNotEmpty, MaxLength, maxLength, MinLength, minLength } from "class-validator";
+import { IsEnum, IsNotEmpty, MaxLength, maxLength, MinLength, minLength } from "class-validator";
 import { crudEntity } from "./crudEntity.entity";
 @Entity()
 export class Todo extends crudEntity {
@@ -28,7 +28,7 @@ export class Todo extends crudEntity {
     })
     description: string;
 
-
+    @IsEnum(StatusEnum)
     @Column({
         type: 'enum',
         enum: StatusEnum,

@@ -4,6 +4,8 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Repository } from 'typeorm';
 import { Todo } from './entities/todo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GetAllDto } from './dto/get-all.dto';
+import { PaginationResponse } from './interfaces/pagination.interface';
 
 @Injectable()
 export class TodoService {
@@ -19,8 +21,41 @@ export class TodoService {
     return res;
   }
 
-  findAll() {
-    return `This action returns all todo`;
+  // implement pagination
+  async getAll(query: GetAllDto): Promise<PaginationResponse<Todo>> {
+    const { page, limit, sortBy, sortDirection } = query;
+    console.log(query);
+    const skip = (page - 1) * limit; // number of items to skip
+    const queryBuilder = this.todoRepository.createQueryBuilder('todo');
+
+    const allowedSortFields = ['createdAt', 'updatedAt', 'name', 'id']; // add your allowed fields
+    const sanitizedSortBy = allowedSortFields.includes(sortBy) ? sortBy : 'createdAt';
+    queryBuilder.orderBy(`todo.${sanitizedSortBy}`, sortDirection);
+
+    // gets paginated results and return total
+    const [items, totalItems] = await queryBuilder
+      .skip(skip)
+      .take(limit)
+      .getManyAndCount();
+
+    const totalPages = Math.ceil(totalItems / limit);
+    const currentPage = page;
+    const hasNextPage = page < totalPages;
+    const hasPreviousPage = page > 1;
+
+    return {
+      items,
+      metadata: {
+        totalItems,
+        itemsPerPage: limit,
+        currentPage,
+        totalPages,
+        hasNextPage,
+        hasPreviousPage
+      }
+    };
+
+
   }
 
   async findOne(id: number) {
@@ -47,4 +82,5 @@ export class TodoService {
     res.updatedAt = null;
     return this.todoRepository.update({ id }, { deletedAt: new Date() });
   }
+
 }
