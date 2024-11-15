@@ -1,0 +1,10 @@
+{
+  "extensions": {
+    "python.python": {
+      "enabled": false
+    },
+    "ms-vscode.cpptools": {
+      "enabled": false
+    }
+  }
+}

@@ -5,6 +5,10 @@ import { PaymentModule } from './payment/payment.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonModule } from './common/common.module';
 import { TodoModule } from './todo/todo.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -20,11 +24,14 @@ import { TodoModule } from './todo/todo.module';
       // entities: [Payment],
       autoLoadEntities: true,
       synchronize: true,
+      logging: true
     }),
     TodoModule,
+    AuthModule,
+    UsersModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, AuthController],
+  providers: [AppService, AuthService],
   exports: []
 })
 export class AppModule { }

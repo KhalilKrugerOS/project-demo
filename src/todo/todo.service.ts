@@ -6,6 +6,7 @@ import { Todo } from './entities/todo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GetAllDto } from './dto/get-all.dto';
 import { PaginationResponse } from './interfaces/pagination.interface';
+import { StatusType } from './ENUMS/status.enums';
 
 @Injectable()
 export class TodoService {
@@ -21,10 +22,12 @@ export class TodoService {
     return res;
   }
 
+  getTodoByStatus(status: StatusType) {
+    return this.todoRepository.find({ where: { status: status } });
+  }
   // implement pagination
-  async getAll(query: GetAllDto): Promise<PaginationResponse<Todo>> {
-    const { page, limit, sortBy, sortDirection } = query;
-    console.log(query);
+  async getAll(page: number, limit: number, sortBy: string, sortDirection: 'ASC' | 'DESC'): Promise<PaginationResponse<Todo>> {
+    console.log(page, limit, sortBy, sortDirection);
     const skip = (page - 1) * limit; // number of items to skip
     const queryBuilder = this.todoRepository.createQueryBuilder('todo');
 

@@ -28,12 +28,11 @@ export class Todo extends crudEntity {
     })
     description: string;
 
-    @IsEnum(StatusEnum)
     @Column({
         type: 'enum',
         enum: StatusEnum,
         default: StatusEnum.IN_PROGRESS
     })
-
-    Status: StatusType;
+    @IsEnum(StatusEnum)
+    status: StatusType;
 }
