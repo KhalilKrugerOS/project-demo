@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpException, HttpStatus, UseFilters, ForbiddenException, ParseIntPipe, DefaultValuePipe, ParseEnumPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpException, HttpStatus, UseFilters, ForbiddenException, ParseIntPipe, DefaultValuePipe, ParseEnumPipe, UseGuards } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
@@ -7,7 +7,10 @@ import { PaginationResponse } from './interfaces/pagination.interface';
 import { Todo } from './entities/todo.entity';
 import { StatusType } from './ENUMS/status.enums';
 import { HttpExceptionFilter } from './exception.filter';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+
+//@UseGuards(AuthGuard)
 @Controller('todo')
 export class TodoController {
   constructor(private readonly todoService: TodoService) { }
@@ -27,11 +30,6 @@ export class TodoController {
       )
     }
     //throw new ForbiddenException();
-  }
-
-  @Post('/addTodo')
-  addTodo(@Body() createTodoDto: CreateTodoDto) {
-    return this.todoService.addTodo(createTodoDto);
   }
 
   @Get()

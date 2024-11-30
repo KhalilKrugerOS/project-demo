@@ -1,6 +1,8 @@
-import { IsEmail, IsNotEmpty, IsString, Max, Min } from "class-validator";
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { IsNotEmpty, IsString, Max, Min } from "class-validator";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+
+@Entity('User')
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
@@ -14,13 +16,13 @@ export class User {
     @Max(30)
     name: string;
 
-    @Column()
-    @IsNotEmpty({
-        message: 'email is required'
-    })
-    @IsString()
-    @IsEmail()
-    email: string;
+    // @Column()
+    // @IsNotEmpty({
+    //     message: 'email is required'
+    // })
+    // @IsString()
+    // @IsEmail()
+    // email: string;
 
     @Column()
     @IsString()

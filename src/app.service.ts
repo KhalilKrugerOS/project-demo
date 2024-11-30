@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { Public } from './auth.decorator';
 
 @Injectable()
 export class AppService {
+  @Public()
   getHello(params: any): string {
     console.table(params);
     return params;

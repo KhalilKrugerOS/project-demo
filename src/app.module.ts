@@ -9,11 +9,13 @@ import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { User } from './users/entities/user.entity';
+import { Todo } from './todo/entities/todo.entity';
+import { AuthGuard } from './auth/auth.guard';
 
 @Module({
   imports: [
     CommonModule,
-    PaymentModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -21,17 +23,17 @@ import { UsersModule } from './users/users.module';
       username: 'root',
       password: '',
       database: 'nest-test',
-      // entities: [Payment],
-      autoLoadEntities: true,
-      synchronize: true,
+      entities: [User, Todo],
+      //autoLoadEntities: true,
+      synchronize: false,
       logging: true
     }),
     TodoModule,
     AuthModule,
     UsersModule,
   ],
-  controllers: [AppController, AuthController],
-  providers: [AppService, AuthService],
+  controllers: [AppController],
+  providers: [AppService],
   exports: []
 })
 export class AppModule { }
